@@ -1,0 +1,5 @@
+customer-handler-api-test-app:
+  logging:
+    logging-uri-patterns-list: >
+      /AddressZipResponse/*,
+      /AddressZipRequest/*
