@@ -10,7 +10,6 @@ public class CustomerHandlerApiTestAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CustomerHandlerApiTestAppApplication.class, args);
-
 	}
 }
 

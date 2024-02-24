@@ -9,7 +9,7 @@
         <version>0.1.0.RELEASE</version>
     </parent>
 
-    <artifactId>customer-handler-api-test-app-boot</artifactId>
+    <artifactId>customer-handler-api-test-app-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,33 +20,16 @@
     <dependencies>
         <dependency>
             <groupId>com.customer.handling.test</groupId>
-            <artifactId>customer-handler-api-test-app-api</artifactId>
-            <version>0.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.customer.handling.test</groupId>
-            <artifactId>customer-handler-api-test-app-controller</artifactId>
-            <version>0.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.customer.handling.test</groupId>
-            <artifactId>customer-handler-api-test-app-service</artifactId>
-            <version>0.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.customer.handling.test</groupId>
             <artifactId>customer-handler-api-test-app-webclient</artifactId>
             <version>0.1.0.RELEASE</version>
         </dependency>
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+        <dependency>
+            <groupId>com.customer.handling.service</groupId>
+            <artifactId>customer-handler-service-api</artifactId>
+            <version>0.1.0.RELEASE</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

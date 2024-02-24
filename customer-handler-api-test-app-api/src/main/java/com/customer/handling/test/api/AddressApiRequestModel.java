@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Builder
 @Validated
-public record AddressZipRequest(
+public record AddressApiRequestModel(
         @NotNull
         Integer id,
         @NotNull
