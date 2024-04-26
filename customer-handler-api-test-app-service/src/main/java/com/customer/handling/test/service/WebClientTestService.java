@@ -21,7 +21,7 @@ public class WebClientTestService {
     private final ServiceMapper serviceMapper;
 
 
-    public void testWebClient(AddressServiceModel addressServiceModel) {
+    public void httpMethodPost(AddressServiceModel addressServiceModel) {
         String body;
         try {
             AddressData addressData = serviceMapper.map(addressServiceModel);
@@ -31,7 +31,30 @@ public class WebClientTestService {
         }
         Optional<AddressData> addressDataOptional = genericWebClient.send(HttpMethod.POST, "http://localhost:8080/address/create", body, AddressData.class);
         if (addressDataOptional.isPresent()) {
-            String country = addressDataOptional.get().country();
+            System.out.println("Created body " + body);
         }
+    }
+
+    public AddressServiceModel httpMethodGet(Integer id) {
+        Optional<AddressData> addressDataOptional = genericWebClient.sendGet("http://localhost:8080/address/" + id, AddressData.class);
+        addressDataOptional.ifPresent(addressData -> System.out.println("Get Address body with  id: " + id + addressData));
+        return serviceMapper.map(addressDataOptional.get());
+    }
+
+    public void httpMethodPut(AddressServiceModel addressServiceModel) {
+        String body;
+        try {
+            AddressData addressData = serviceMapper.map(addressServiceModel);
+            body = objectMapper.writeValueAsString(addressData);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        Optional<AddressData> addressDataOptional = genericWebClient.send(HttpMethod.PUT, "http://localhost:8080/address/update", body, AddressData.class);
+        if (addressDataOptional.isPresent()) {
+            System.out.println("Put body " + body);
+        }
+    }
+    public void httpMethodDelete(Integer id) {
+        genericWebClient.sendDelete("http://localhost:8080/address/" + id);
     }
 }

@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ControllerMapper {
         AddressServiceModel map(AddressApiRequestModel addressApiRequestModel);
+
+        AddressApiRequestModel map(AddressServiceModel addressServiceModel);
 }

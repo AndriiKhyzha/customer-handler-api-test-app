@@ -8,7 +8,8 @@ spring:
   config:
     import: >
       customer-handler-api-test-app.yml,
-      webclient.yml
+      webclient.yml,
+      swagger-configuration.yml
   cloud:
     config:
       enabled: false
@@ -23,7 +24,7 @@ spring:
 
 logging:
   level:
-    com.customer.handling.test: INFO
+    com.customer.handling.test.controller: INFO
 
   management:
     endpoint:

@@ -60,4 +60,67 @@ public class GenericWebClient {
                                 })))
                 .blockOptional();
     }
+
+    public <T> Optional<T> sendGet(String baseUrl, Class<T> responseObjectClass) {
+        WebClient webClient = WebClient.builder()
+                .clientConnector(clientHttpConnector)
+                .baseUrl(baseUrl)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        WebClient.ResponseSpec responseSpec = webClient
+                .method(HttpMethod.GET)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve();
+
+        return responseSpec
+                .onStatus(status -> Arrays.asList(webClientConfigurationProperties.retry().statusList())
+                                .contains(status.value()),
+                        response -> Mono.error(new WebClientRetryException()))
+                .bodyToMono(responseObjectClass)
+                .onErrorMap(exception -> exception.getCause() != null
+                                && Arrays.asList(webClientConfigurationProperties.retry().exceptionList())
+                                .contains(exception.getCause().getClass()),
+                        exception -> new WebClientRetryException())
+                .retryWhen(
+                        Retry.backoff(webClientConfigurationProperties.retry().maxRetryAttempts(),
+                                        Duration.ofSeconds(webClientConfigurationProperties.retry().minBackoffSeconds()))
+                                .jitter(webClientConfigurationProperties.retry().jitterFactor())
+                                .filter(throwable -> throwable instanceof WebClientRetryException)
+                                .onRetryExhaustedThrow(((retryBackoffSpec, retrySignal) -> {
+                                    throw new WebClientFailedException();
+                                })))
+                .blockOptional();
+    }
+    public void sendDelete(String baseUrl) {
+        WebClient webClient = WebClient.builder()
+                .clientConnector(clientHttpConnector)
+                .baseUrl(baseUrl)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        WebClient.ResponseSpec responseSpec = webClient
+                .method(HttpMethod.DELETE)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve();
+
+        responseSpec
+                .onStatus(status -> Arrays.asList(webClientConfigurationProperties.retry().statusList())
+                                .contains(status.value()),
+                        response -> Mono.error(new WebClientRetryException()))
+                .bodyToMono(Void.class)
+                .onErrorMap(exception -> exception.getCause() != null
+                                && Arrays.asList(webClientConfigurationProperties.retry().exceptionList())
+                                .contains(exception.getCause().getClass()),
+                        exception -> new WebClientRetryException())
+                .retryWhen(
+                        Retry.backoff(webClientConfigurationProperties.retry().maxRetryAttempts(),
+                                        Duration.ofSeconds(webClientConfigurationProperties.retry().minBackoffSeconds()))
+                                .jitter(webClientConfigurationProperties.retry().jitterFactor())
+                                .filter(throwable -> throwable instanceof WebClientRetryException)
+                                .onRetryExhaustedThrow(((retryBackoffSpec, retrySignal) -> {
+                                    throw new WebClientFailedException();
+                                })))
+                .blockOptional();
+    }
 }

@@ -1,0 +1,6 @@
+app:
+  name: customer-handler-api-test-app
+  api:
+    title: JavaInUse API
+    description: Finally I understood how does working SWAGGER!!!!!
+    version: 3.0

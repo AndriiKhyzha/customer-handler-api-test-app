@@ -12,4 +12,3 @@ public class CustomerHandlerApiTestAppApplication {
 		SpringApplication.run(CustomerHandlerApiTestAppApplication.class, args);
 	}
 }
-
