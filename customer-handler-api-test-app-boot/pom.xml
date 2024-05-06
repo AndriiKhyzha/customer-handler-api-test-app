@@ -45,6 +45,21 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.customer.handling.test.boot.CustomerHandlerApiTestAppApplication</mainClass>
+                    <addResources>true</addResources>
+                    <finalName>customer-handler-api-test-app</finalName>
+                    <skip>false</skip>
+                    <classifier>exec</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
