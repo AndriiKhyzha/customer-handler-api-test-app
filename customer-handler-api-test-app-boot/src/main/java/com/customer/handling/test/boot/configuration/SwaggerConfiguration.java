@@ -1,4 +1,4 @@
-package com.customer.handling.test.boot;
+package com.customer.handling.test.boot.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;

@@ -4,5 +4,9 @@ import lombok.Builder;
 
 @Builder
 public record AddressApiResponseModel(
-        String status) {
+        Integer id,
+        String country,
+        String city,
+        String street,
+        String number) {
 }

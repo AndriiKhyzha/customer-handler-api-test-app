@@ -33,9 +33,16 @@
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<slf4j.version>2.0.12</slf4j.version>
 		<org.springdoc.version>2.5.0</org.springdoc.version>
+		<customer-handler-service-test.version>0.2.0.RELEASE</customer-handler-service-test.version>
 	</properties>
 
+
 	<dependencies>
+		<dependency>
+			<groupId>com.customer.handling.test</groupId>
+			<artifactId>customer-handler-service-test</artifactId>
+			<version>${customer-handler-service-test.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

@@ -1,6 +1,9 @@
 package com.customer.handling.test.service;
 
 import com.customer.handling.service.api.AddressData;
+import com.customer.handling.test.service.exception.ItemCreationException;
+import com.customer.handling.test.service.exception.ItemIsNotPresentException;
+import com.customer.handling.test.service.exception.ItemUpdateException;
 import com.customer.handling.test.service.mapper.ServiceMapper;
 import com.customer.handling.test.service.model.AddressServiceModel;
 import com.customer.handling.test.webclient.generic.GenericWebClient;
@@ -20,8 +23,7 @@ public class WebClientTestService {
     private final ObjectMapper objectMapper;
     private final ServiceMapper serviceMapper;
 
-
-    public void httpMethodPost(AddressServiceModel addressServiceModel) {
+    public AddressData httpMethodPost(AddressServiceModel addressServiceModel) {
         String body;
         try {
             AddressData addressData = serviceMapper.map(addressServiceModel);
@@ -29,19 +31,20 @@ public class WebClientTestService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-        Optional<AddressData> addressDataOptional = genericWebClient.send(HttpMethod.POST, "http://localhost:8080/address/create", body, AddressData.class);
-        if (addressDataOptional.isPresent()) {
-            System.out.println("Created body " + body);
-        }
+        Optional<AddressData> addressDataOptional = genericWebClient
+                .send(HttpMethod.POST, "http://localhost:8080/address/create", body, AddressData.class);
+        return addressDataOptional
+                .orElseThrow(() -> new ItemCreationException("Error with create data from webclient"));
     }
 
     public AddressServiceModel httpMethodGet(Integer id) {
-        Optional<AddressData> addressDataOptional = genericWebClient.sendGet("http://localhost:8080/address/" + id, AddressData.class);
-        addressDataOptional.ifPresent(addressData -> System.out.println("Get Address body with  id: " + id + addressData));
-        return serviceMapper.map(addressDataOptional.get());
+        AddressData addressData = genericWebClient
+                .sendGet("http://localhost:8080/address/" + id, AddressData.class)
+                .orElseThrow(() -> new ItemIsNotPresentException("Address Body by " + id + " wasn't found"));
+        return serviceMapper.map(addressData);
     }
 
-    public void httpMethodPut(AddressServiceModel addressServiceModel) {
+    public AddressData httpMethodPut(AddressServiceModel addressServiceModel) {
         String body;
         try {
             AddressData addressData = serviceMapper.map(addressServiceModel);
@@ -49,12 +52,15 @@ public class WebClientTestService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-        Optional<AddressData> addressDataOptional = genericWebClient.send(HttpMethod.PUT, "http://localhost:8080/address/update", body, AddressData.class);
-        if (addressDataOptional.isPresent()) {
-            System.out.println("Put body " + body);
-        }
+        Optional<AddressData> addressDataOptional = genericWebClient
+                .send(HttpMethod.PUT, "http://localhost:8080/address/update", body, AddressData.class);
+        return addressDataOptional
+                .orElseThrow(() -> new ItemUpdateException("Error with update data from webclient"));
     }
     public void httpMethodDelete(Integer id) {
+        if (id <= 0) {
+            throw new ItemIsNotPresentException("Id value must not be negative or Zero");
+        }
         genericWebClient.sendDelete("http://localhost:8080/address/" + id);
     }
 }

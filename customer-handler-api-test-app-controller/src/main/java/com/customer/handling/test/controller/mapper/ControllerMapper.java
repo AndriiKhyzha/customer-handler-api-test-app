@@ -1,12 +1,18 @@
 package com.customer.handling.test.controller.mapper;
 
+import com.customer.handling.service.api.AddressData;
 import com.customer.handling.test.api.AddressApiRequestModel;
+import com.customer.handling.test.api.AddressApiResponseModel;
 import com.customer.handling.test.service.model.AddressServiceModel;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ControllerMapper {
+
         AddressServiceModel map(AddressApiRequestModel addressApiRequestModel);
 
-        AddressApiRequestModel map(AddressServiceModel addressServiceModel);
+        AddressApiResponseModel map(AddressServiceModel addressServiceModel);
+
+        @Mapping(target = "id", source = "dbId")
+        AddressApiResponseModel map(AddressData addressData);
 }

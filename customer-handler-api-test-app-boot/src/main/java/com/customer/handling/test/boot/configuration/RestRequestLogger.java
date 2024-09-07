@@ -1,4 +1,4 @@
-package com.customer.handling.test.boot;
+package com.customer.handling.test.boot.configuration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
