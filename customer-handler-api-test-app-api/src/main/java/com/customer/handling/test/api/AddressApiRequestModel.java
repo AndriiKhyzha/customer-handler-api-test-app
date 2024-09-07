@@ -16,7 +16,5 @@ public record AddressApiRequestModel(
         @NotNull
         String street,
         @NotNull
-        String number
-) {
-
+        String number) {
 }

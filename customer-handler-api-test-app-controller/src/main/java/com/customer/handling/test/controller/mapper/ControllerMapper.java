@@ -5,6 +5,7 @@ import com.customer.handling.test.api.AddressApiRequestModel;
 import com.customer.handling.test.api.AddressApiResponseModel;
 import com.customer.handling.test.service.model.AddressServiceModel;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ControllerMapper {
